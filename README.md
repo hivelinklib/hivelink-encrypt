@@ -71,6 +71,38 @@ For example:
 By including the `EncryptedAttribute` trait, the `setAttribute()`, `getAttribute()` and `getAttributeFromArray()`
 methods provided by Eloquent are overridden to include an additional step.
 
+## Encryption and decryption based on each user
+
+### Step 1: Composer
+
+Add line in controller : 
+
+```bash
+use Hivelink\DBEncryption\Encrypter;
+```
+Use the `encryptUser` , `decryptUser` r method, you can encrypt and decrypt any information based on the user ID
+
+For example:
+
+```php
+    
+    Route::get('/', function () {
+        $loadLib=new Encrypter();
+        $text="Hi my Dear?";
+        $userMail/$userPhone="test@hivelink.co";
+        $userRecord/OtherData=2342342;
+        $encData=$loadLib->encryptUser($text,$userMail,$userRecord);
+
+        $decData=$loadLib->decryptUser($encData,$userMail,$userRecord);
+
+        return $decData
+    });
+```
+
+With this method, you can even encrypt the duplicate information of users without similarity and store it in the database.
+This method is to increase the security of information in your project database.
+
+
 ### Searching Encrypted Fields Example:
 Searching encrypted field can be done by calling the `whereEncrypted` and `orWhereEncrypted` functions
 similar to laravel eloquent `where` and `orWhere`.
